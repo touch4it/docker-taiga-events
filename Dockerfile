@@ -1,14 +1,17 @@
-FROM node:0.10
-MAINTAINER Benjamin Hutchins <ben@hutchins.co>
+FROM node:6.10
+MAINTAINER Touch4IT <hi@touch4it.com>
 
-COPY taiga-events /usr/src/taiga-events
-COPY config.json /usr/src/taiga-events/config.json
+COPY taiga-events /taiga-events
 
-WORKDIR /usr/src/taiga-events
+WORKDIR /taiga-events
 
 RUN npm install --production
 RUN npm install -g coffee-script
 
-EXPOSE 80
+COPY config.json /taiga-events/config.json
 
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["coffee", "index.coffee"]
+
+EXPOSE 80
